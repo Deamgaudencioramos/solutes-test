@@ -63,10 +63,10 @@ describe('CT02 - Cadastrar e Deletar um Card', () => {
     })
 
     it('Deletar um card com id vazio - deve retornar status code 404', () => {
-      //possivel falhar de segurança api retornando key e token 
+      //possivel falhar de segurança api retornando key e token no response avaliar 
         cy.deleteCard('').then((response) => {
         expect(response.status).to.eq(404)
-        expect(response.body).to.eq('Cannot DELETE /1/cards/?log=false&key=88872f9b0c6eac33d7f93114392c5dde&token=ATTA510585a9c9e5b2ebaa474aff875b6e7c57ce98a81189edc200b28989f9df9421DD003E7A')
+        expect(response.body).to.eq('Cannot DELETE /1/cards/?log=false&key=xxxe&token=xxx')
       })
     })
 

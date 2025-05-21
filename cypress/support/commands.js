@@ -18,6 +18,19 @@ Cypress.Commands.add('creatBoard',(boardname)=>{
     })
 })
 
+Cypress.Commands.add('creatBoardInvalidAuthorization',(boardname, key, token)=>{
+    cy.api({
+      method: 'POST',
+      url: `/boards/`,
+      qs: {
+        name: boardname,
+        key:key,
+        token:token,
+      },
+      failOnStatusCode: false
+    })
+})
+
 Cypress.Commands.add('deleteBoard',(boarId)=>{
     cy.api({
       method: 'DELETE',
@@ -29,6 +42,17 @@ Cypress.Commands.add('deleteBoard',(boarId)=>{
     })
 })
 
+Cypress.Commands.add('deletBoardInvalidAuthorization',(boarId, key, token)=>{
+    cy.api({
+      method: 'DELETE',
+      url: `/boards/${boarId}/`,
+      qs: {
+        key:key,
+        token:token,
+      },
+      failOnStatusCode: false
+    })
+})
 
 Cypress.Commands.add('createList', (boardId, listName) => {
     return cy.api({
