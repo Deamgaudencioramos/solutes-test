@@ -1,0 +1,65 @@
+
+ const getAuthorization = () => {
+    return {
+        key: Cypress.env('API_KEY'),
+        token: Cypress.env('API_TOKEN')
+    };
+  };
+
+Cypress.Commands.add('creatBoard',(boardname)=>{
+    cy.api({
+      method: 'POST',
+      url: `/boards/`,
+      qs: {
+        name: boardname,
+        ...getAuthorization()
+      },
+    })
+})
+
+Cypress.Commands.add('deleteBoard',(boarId)=>{
+    cy.api({
+      method: 'DELETE',
+      url: `/boards/${boarId}`,
+      qs: {
+        ...getAuthorization()
+      },
+    })
+})
+
+
+Cypress.Commands.add('createList', (boardId, listName) => {
+    return cy.api({
+      method: 'POST',
+      url: '/lists',
+      qs: {
+        name: listName,
+        idBoard: boardId,
+        ...getAuthorization()
+      }
+    });
+  });
+
+Cypress.Commands.add('creatCard',(cardName,listId)=>{
+    cy.api({
+        method: 'POST',
+        url: `/cards/`,
+        qs: {
+          name: cardName,
+          idList: listId,
+          ...getAuthorization()
+        },
+      })
+
+})
+
+Cypress.Commands.add('deleteCard',(cardId)=>{
+  cy.api({
+    method: 'DELETE',
+    url: `/cards/${cardId}`,
+    qs: {
+      log:false,
+      ...getAuthorization()
+    },
+  })
+})
