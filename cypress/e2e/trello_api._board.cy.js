@@ -34,26 +34,39 @@ describe('CT01 - Cadastrar e Deletar Board', () => {
         expect(response.body.error).to.eq("ERROR")
       })
     })
-
-    it('Deletar um board com id vazio - deve retornar status code 400', () => {
-      return cy.deleteBoard().then((response) => {
-        expect(response.status).to.eq(400);
-        expect(response.body).to.eq("invalid id")
+    const invalidIds = [null, "", 9999]
+    invalidIds.forEach((ids) => {
+      it(`Deletar um board com id ${ids} - deve retornar status code 400`, () => {
+        cy.deleteBoard().then((response) => {
+          expect(response.status).to.eq(400);
+          expect(response.body).to.eq("invalid id")
+        })
       })
     })
+    const invalidCredentialsTests = [
+      {
+        descricao: 'credenciais inválidas',
+        key: 'teste123',
+        token: 'teste123',
+      },
+      {
+        descricao: 'credenciais vazias',
+        key: ' ',
+        token: ' ',
+      }
+    ];
 
-    it('Deletar um board com id inexistente - deve retornar status code 400', () => {
-      return cy.deleteBoard(99999).then((response) => {
-        expect(response.status).to.eq(400);
-        expect(response.body).to.eq("invalid id")
-      })
-    })
-
-    it('Deletar um board com id null - deve retornar status code 400', () => {
-      return cy.deleteBoard(null).then((response) => {
-        expect(response.status).to.eq(400);
-        expect(response.body).to.eq("invalid id")
-      })
+    invalidCredentialsTests.forEach(({ descricao, key, token }) => {
+      it(`Criar e deletar um board com ${descricao} - deve retornar status code 401`, () => {
+        cy.creatBoardInvalidAuthorization("board-name-teste", key, token).then((response) => {
+          expect(response.status).to.eq(401);
+          expect(response.body).to.eq("invalid key");
+        });
+        cy.deletBoardInvalidAuthorization("123456132", key, token).then((response) => {
+          expect(response.status).to.eq(401);
+          expect(response.body).to.eq("invalid key");
+        });
+      });
     })
   })
 })
