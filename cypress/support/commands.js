@@ -14,6 +14,7 @@ Cypress.Commands.add('creatBoard',(boardname)=>{
         name: boardname,
         ...getAuthorization()
       },
+      failOnStatusCode: false
     })
 })
 
@@ -24,6 +25,7 @@ Cypress.Commands.add('deleteBoard',(boarId)=>{
       qs: {
         ...getAuthorization()
       },
+      failOnStatusCode: false
     })
 })
 
@@ -49,6 +51,7 @@ Cypress.Commands.add('creatCard',(cardName,listId)=>{
           idList: listId,
           ...getAuthorization()
         },
+        failOnStatusCode: false
       })
 
 })
@@ -61,5 +64,6 @@ Cypress.Commands.add('deleteCard',(cardId)=>{
       log:false,
       ...getAuthorization()
     },
+    failOnStatusCode: false
   })
 })
